@@ -1,15 +1,19 @@
 'use strict';
 
+const DIRECTORY_SEPERATOR = require('path').sep;
+const real_path = require('path').resolve;
 const Render = require('../modules/render');
 const render = new Render();
 const Validate = require('../modules/validate');
 const validator = new Validate();
+const Mailer = require('../modules/mailer');
+const mailer = new Mailer();
 
 module.exports = async (app) => {
 
     await validator.loadConfig();
 
-    const p = (req) => {
+    const p = (req, validateTemplate = 'mail-preview') => {
         let payload, 
             error = true,
             status = 500;
@@ -22,7 +26,7 @@ module.exports = async (app) => {
             payload = {};
         }
 
-        if(validator.proof('mail-preview', payload)) {
+        if(validator.proof(validateTemplate, payload)) {
 
             error = false;
             status = 200;
@@ -32,7 +36,7 @@ module.exports = async (app) => {
             error: error,
             status: status,
             payload: payload,
-            errors: validator.getErrors(),
+            errors: validator.getErrors()
         };
     }
 
@@ -68,12 +72,42 @@ module.exports = async (app) => {
         return resp;
     }
 
-    app.get('/', (req, res) => res.send({yo: 1}));
+    app.get('/', (req, res) => {
+        const path = [
+            __dirname,
+            '..',
+            'version.json'
+        ].join(DIRECTORY_SEPERATOR);
+
+        res.sendFile(real_path(path))
+    });
 
     app.post('/send', async (req, res) => {
-        const renderData = {};
+        const data = p(req, 'mail-template');
+        const html = await response(data);
 
-        res.send(await render('./dashboard.twig', renderData));
+        let error = false, 
+            status = 200, 
+            errors = [];
+
+        if(Array.isArray(html)) {
+
+            status = 500;
+            error = true;
+            errors = html;
+        }
+
+        try {
+            mailer.send(data.payload);
+
+        }catch (e) {
+
+        }
+
+        res.status(status).send({
+            error: error,
+            payload: errors
+        });
     });
 
     app.post('/render/preview', async (req, res) => {

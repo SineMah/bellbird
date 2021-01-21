@@ -9,13 +9,13 @@ module.exports = class Mailer {
         this.transport = nodemailer.createTransport(this.getTransport());
     }
 
-    send = async (config, data) => {
+    send = async (data) => {
 
         return new Promise((resolve, reject) => {
             let options = {
-                from: config.sender,
-                to: config.recipient,
-                subject: config.subject
+                from: data.sender,
+                to: data.recipient,
+                subject: data.subject
             };
 
             if(data.html) {
@@ -42,16 +42,20 @@ module.exports = class Mailer {
                 });
             }
 
-            this.transport.sendMail(options, (error, info) => {
+            console.log(options);
 
-                if (error) {
+            resolve();
+
+            // this.transport.sendMail(options, (error, info) => {
+
+            //     if (error) {
                     
-                    reject(error);
-                } else {
+            //         reject(error);
+            //     } else {
                     
-                    resolve(info);
-                }
-            });
+            //         resolve(info);
+            //     }
+            // });
         });
     }
 
