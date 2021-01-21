@@ -1,0 +1,52 @@
+[
+    {
+        "name": "mail-template",
+        "schema": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "string" },
+                "sender": { "type": "string"},
+                "recipient": { "type": "string"},
+                "file": { "type": ["string", "null"] },
+                "template": { "type": ["string", "null"] },
+                "data": { "type": "object" },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": { "type": "string" },
+                            "data": { "type": "string" }
+                        }
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "sender",
+                "recipient",
+                "data",
+                "file",
+                "template"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "mail-preview",
+        "schema": {
+            "type": "object",
+            "properties": {
+                "file": { "type": ["string", "null"] },
+                "template": { "type": ["string", "null"] },
+                "data": { "type": "object" }
+            },
+            "required": [
+                "data",
+                "file",
+                "template"
+            ],
+            "additionalProperties": false
+        }
+    }
+]
