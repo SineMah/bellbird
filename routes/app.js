@@ -90,18 +90,23 @@ module.exports = async (app) => {
             status = 200, 
             errors = [];
 
+        /**
+         * validation failed
+         * html is array
+         */
         if(Array.isArray(html)) {
 
             status = 500;
             error = true;
             errors = html;
-        }
+        }else {
 
-        try {
-            mailer.send(data.payload);
-
-        }catch (e) {
-
+            try {
+                mailer.send(data.payload);
+    
+            }catch (e) {
+    
+            }
         }
 
         res.status(status).send({
