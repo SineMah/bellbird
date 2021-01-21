@@ -7,7 +7,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-const Validate = require('./modules/validate');
 const port = process.env.PORT || 56707;
 
 (async () => {
