@@ -34,12 +34,18 @@ module.exports = class Mailer {
                 options.attachments = [];
 
                 data.files.forEach(file => {
-                    
-                    options.attachments.push({
+                    let options = {
                         filename: file.name,
                         content: file.content,
                         encoding: file.encoding || 'base64'
-                    });
+                    };
+
+                    if(file.cid) {
+
+                        options.cid = file.cid;
+                    }
+
+                    options.attachments.push(options);
                 });
             }
 
