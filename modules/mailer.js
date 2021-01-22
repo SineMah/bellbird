@@ -36,13 +36,17 @@ module.exports = class Mailer {
                 data.files.forEach(file => {
                     let fileOptions = {
                         filename: file.name,
-                        content: file.content,
-                        encoding: file.encoding || 'base64'
+                        content: file.content
                     };
 
                     if(file.cid) {
 
                         fileOptions.cid = file.cid;
+                    }
+
+                    if (file.encoding) {
+
+                        fileOptions.encoding = file.encoding;
                     }
 
                     options.attachments.push(fileOptions);

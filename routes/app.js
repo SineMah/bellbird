@@ -7,6 +7,7 @@ const Validate = require('../modules/validate');
 const validator = new Validate();
 const Mailer = require('../modules/mailer');
 const mailer = new Mailer();
+const Image = require('../attachement/image');
 
 module.exports = async (app) => {
 
@@ -113,12 +114,24 @@ module.exports = async (app) => {
             error = true;
             errors = html;
         }else {
+            const image = new Image(html, data.payload.images || []);
 
-            data.payload.html = html;
+            if(!data.payload.files) {
+                
+                data.payload.files = [];
+            }
+
+            image.load();
+
+            data.payload.files = [...data.payload.files, ...image.files];
+
+            data.payload.html = image.html;
+
+            // console.log(data.payload.html);
 
             try {
+
                 mailer.send(data.payload);
-    
             }catch (e) {
     
             }
