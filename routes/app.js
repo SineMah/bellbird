@@ -101,6 +101,8 @@ module.exports = async (app) => {
             errors = html;
         }else {
 
+            data.payload.html = html;
+
             try {
                 mailer.send(data.payload);
     
