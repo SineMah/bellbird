@@ -11,7 +11,7 @@ module.exports = class Mailer {
 
     send = async (data) => {
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             let options = {
                 from: data.sender,
                 to: data.recipient,
@@ -42,20 +42,14 @@ module.exports = class Mailer {
                 });
             }
 
-            console.log(options);
+            try {
+                
+                resolve(await this.transport.sendMail(options));
+            }catch(e) {
 
-            resolve();
-
-            // this.transport.sendMail(options, (error, info) => {
-
-            //     if (error) {
-                    
-            //         reject(error);
-            //     } else {
-                    
-            //         resolve(info);
-            //     }
-            // });
+                reject(e);
+            }
+            
         });
     }
 
@@ -73,7 +67,7 @@ module.exports = class Mailer {
                 break;
 
             case 'defaultSmtp':
-                transport = this.getDefault
+                transport = this.getDefault();
                 break;
         }
 
