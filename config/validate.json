@@ -28,7 +28,7 @@
                         "type": "object",
                         "properties": {
                             "name": { "type": "string" },
-                            "data": { "type": "string" }
+                            "content": { "type": "string" }
                         }
                     }
                 }
