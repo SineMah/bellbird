@@ -15,7 +15,8 @@ module.exports = class Mailer {
             let options = {
                 from: data.sender,
                 to: data.recipient,
-                subject: data.subject
+                subject: data.subject,
+                headers: data.headers || []
             };
 
             if(data.html) {

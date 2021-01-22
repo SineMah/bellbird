@@ -12,6 +12,13 @@
                 "template": { "type": ["string", "null"] },
                 "data": { "type": "object" },
                 "text": { "type": "string" },
+                "headers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 3
+                    }
+                },
                 "files": {
                     "type": "array",
                     "items": {
