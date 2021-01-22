@@ -31,6 +31,18 @@
                             "content": { "type": "string" }
                         }
                     }
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": { "type": "string" },
+                            "type": { "type": "string" },
+                            "content": { "type": "string" },
+                            "alt": { "type": "string" }
+                        }
+                    }
                 }
             },
             "required": [
