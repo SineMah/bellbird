@@ -12,6 +12,9 @@
                 "template": { "type": ["string", "null"] },
                 "data": { "type": "object" },
                 "text": { "type": "string" },
+                "useJuice": { "type": "boolean" },
+                "useMjml": { "type": "boolean" },
+                "useInky": { "type": "boolean" },
                 "headers": {
                     "type": "array",
                     "items": {

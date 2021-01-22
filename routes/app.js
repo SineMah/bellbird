@@ -3,7 +3,6 @@
 const DIRECTORY_SEPERATOR = require('path').sep;
 const real_path = require('path').resolve;
 const Render = require('../modules/render');
-const render = new Render();
 const Validate = require('../modules/validate');
 const validator = new Validate();
 const Mailer = require('../modules/mailer');
@@ -43,6 +42,12 @@ module.exports = async (app) => {
     const r = async (payload) => {
         let response = null;
 
+        const render = new Render();
+
+        render.subrenders = render.getSubrender(payload);
+
+        console.log(render.subrenders);
+
         if(payload.template) {
 
             response = await render.raw(payload.template, payload.data);
@@ -62,7 +67,15 @@ module.exports = async (app) => {
     }
 
     const response = async (data) => {
-        let resp = await r(data.payload);
+        let resp;
+
+        try {
+            resp = await r(data.payload);
+        }catch(e) {
+
+            data.error = true;
+            data.errors = [e.toString()];
+        }
 
         if(data.error) {
 
